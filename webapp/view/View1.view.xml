@@ -1,0 +1,186 @@
+<mvc:View controllerName="project2.controller.View1"   xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:gt="sap.ui.table" xmlns:core="sap.ui.core" xmlns:fb="sap.ui.comp.filterbar" xmlns:tnt="sap.tnt" xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout" xmlns:viz="sap.viz.ui5.controls" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+	xmlns:viz.data="sap.viz.ui5.data" xmlns:microchart="sap.suite.ui.microchart" xmlns:commons="sap.suite.ui.commons"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:smartTable="sap.ui.comp.smarttable">
+
+    <tnt:ToolPage id="toolPage"> 
+<tnt:header>
+			<tnt:ToolHeader>
+				<Button id="sideNavigationToggleButton" icon="sap-icon://menu2" type="Transparent" press=".onSideNavButtonPress">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Button>
+			</tnt:ToolHeader>
+		</tnt:header>
+	<tnt:sideContent>
+			<tnt:SideNavigation expanded="true" itemSelect="onItemSelect">
+				<tnt:NavigationList selectedKey="{worklistView>/sideNavKey}" class="sapTntNavLIGroup">
+					<tnt:items>
+						<tnt:NavigationListItem text="{i18n>TotalCasesbyeachClaimTypeReport}" key="1" tooltip="{i18n>TotalCasesbyeachClaimTypeReport}"/>
+						
+					</tnt:items>
+				</tnt:NavigationList>
+			</tnt:SideNavigation>
+		</tnt:sideContent>
+
+        	<tnt:mainContents>
+			<NavContainer id="pageContainer" initialPage="1">
+				<pages>
+					<Page id="1" showHeader="false">
+						<ScrollContainer horizontal="false" vertical="true" height="100%">
+							<l:BlockLayout background="Default" visible="true" class="sapUiTinyMarginTop" keepFontSize="true">
+								<l:BlockLayoutRow accentCells="Accent1">
+									<l:BlockLayoutCell class="chartCard">
+										<l:VerticalLayout width="100%">
+											<fb:FilterBar persistencyKey="myPersKey" useToolbar="false" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad"
+												showClearOnFB="true" clear="onClear($event, '1')" reset="onReset" search="onSearch($event, '1')" showRestoreButton="true">
+												<fb:filterItems>
+													<!--Claim Type -->
+													<fb:FilterItem name="A1" label="{i18n>ClaimType}">
+														<fb:control>
+															<MultiInput tokens="{path: 'worklistView>/oFilter/CLMTY'}" placeholder="{i18n>ClaimType}" valueHelpRequest="onOpenClmTyp($event, '1')" valueHelpOnly="true"
+																showValueHelp="true" tokenUpdate="onUpdateClmTyp">
+																<tokens>
+																	<Token text="{worklistView>TXVAL}"/>
+																</tokens>
+															</MultiInput>
+														</fb:control>
+													</fb:FilterItem>
+													<!--Overall Claim Status-->
+													<fb:FilterItem name="A2" label="{i18n>OverallClaimStatus}">
+														<fb:control>
+															<MultiInput tokens="{path: 'worklistView>/oFilter/CLMST'}" placeholder="{i18n>OverallClaimStatus}" valueHelpRequest="onOpenClmSts($event, '1')"
+																valueHelpOnly="true" showValueHelp="true" tokenUpdate="onUpdateClmSts">
+																<tokens>
+																	<Token text="{worklistView>TXVAL}"/>
+																</tokens>
+															</MultiInput>
+														</fb:control>
+													</fb:FilterItem>
+													<!--Benefit Start Date -->
+													<fb:FilterItem name="A3" label="{i18n>BenefitStartDate}">
+														<fb:control>
+															<DateRangeSelection id="idDateRange1" displayFormat="MM/dd/yyyy" placeholder="{i18n>MMddyyyyMMddyyyy}" valueFormat="MM-dd-yyyy"
+																value="{worklistView>/oFilter/BFSTD}"/>
+														</fb:control>
+													</fb:FilterItem>
+													<!--Employee Group -->
+													<fb:FilterItem name="A4" label="{i18n>EmployeeGroup}">
+														<fb:control>
+															<MultiInput tokens="{path: 'worklistView>/oFilter/EMPGR'}" placeholder="{i18n>EmployeeGroup}" valueHelpRequest="onOpenEmpGrp" valueHelpOnly="true"
+																showValueHelp="true" tokenUpdate="onUpdateEmpGrp">
+																<tokens>
+																	<Token text="{worklistView>EMPGR}"/>
+																</tokens>
+															</MultiInput>
+														</fb:control>
+													</fb:FilterItem>
+													<!--Department-->
+													<fb:FilterItem name="A5" label="{i18n>Department}">
+														<fb:control>
+															<MultiInput tokens="{path: 'worklistView>/oFilter/DEPTC'}" placeholder="{i18n>Department}" valueHelpRequest="onOpenDept" valueHelpOnly="true"
+																showValueHelp="true" tokenUpdate="onUpdateDept">
+																<tokens>
+																	<Token text="{worklistView>DEPNM}"/>
+																</tokens>
+															</MultiInput>
+														</fb:control>
+													</fb:FilterItem>
+												</fb:filterItems>
+											</fb:FilterBar>
+										</l:VerticalLayout>
+										<commons:ChartContainer id="idChartContainer1" showLegend="true" showZoom="false" visible="true" showFullScreen="false"
+											showPersonalization="false" autoAdjustHeight="false" showLegendButton="true" personalizationPress="attachPersonalizationPress"
+											contentChange="attachContentChange($event, 'idReport1')" title="{i18n>TotalCasesbyeachClaimTypeReport}">
+											<commons:content>
+												<commons:ChartContainerContent icon="sap-icon://pie-chart" title="Pie Chart">
+													<commons:content>
+														<!--<viz:Popover id="idPopOver1"></viz:Popover>-->
+														<viz:VizFrame id="idReport1" uiConfig="{applicationSet:'fiori'}" vizType="pie" width="100%" height="400px">
+															<viz:dataset>
+																<viz.data:FlattenedDataset data="{path: 'worklistView>/aChart1', sorter: {path: 'CLMTY'}}">
+																	<viz.data:dimensions>
+																		<viz.data:DimensionDefinition name="{i18n>ClaimType}" value="{worklistView>CLMTYTXT}"/>
+																	</viz.data:dimensions>
+																	<viz.data:measures>
+																		<viz.data:MeasureDefinition name="{i18n>Cases}" value="{worklistView>COUNT}"/>
+																	</viz.data:measures>
+																</viz.data:FlattenedDataset>
+															</viz:dataset>
+															<viz:feeds>
+																<viz.feeds:FeedItem uid="size" type="Measure" values="Cases"/>
+																<viz.feeds:FeedItem uid="color" type="Dimension" values="Claim Type"/>
+															</viz:feeds>
+															<viz:dependents>
+																<viz:Popover id="idPopOver1"></viz:Popover>
+															</viz:dependents>
+														</viz:VizFrame>
+													</commons:content>
+												</commons:ChartContainerContent>
+												<commons:ChartContainerContent icon="sap-icon://table-view" title="Table">
+													<commons:content>
+														<gt:Table id="idReportTable1" visibleRowCountMode="Interactive" rows="{path: 'worklistView>/aTable1', sorter: {path: 'CLMTYTXT'}}"
+															visibleRowCount="10" enableSelectAll="false" selectionMode="None">
+															<gt:columns>
+																<gt:Column hAlign="Center">
+																	<Label text="{i18n>ClaimType}" design="Bold" wrapping="true"/>
+																	<gt:template>
+																		<Text text="{worklistView>CLMTYTXT}"/>
+																	</gt:template>
+																</gt:Column>
+																<gt:Column hAlign="Center">
+																	<Label text="{i18n>OverallClaimStatus}" design="Bold" wrapping="true"/>
+																	<gt:template>
+																		<Text text="{worklistView>OVERALL_CLAIM_STS}"/>
+																	</gt:template>
+																</gt:Column>
+																<gt:Column hAlign="Center">
+																	<Label text="{i18n>BenefitStartDate}" design="Bold" wrapping="true"/>
+																	<gt:template>
+																		<Text text="{worklistView>BENIFIT_START_DATE}"/>
+																	</gt:template>
+																</gt:Column>
+																<gt:Column hAlign="Center">
+																	<Label text="{i18n>EmployeeGroup}" design="Bold" wrapping="true"/>
+																	<gt:template>
+																		<Text text="{worklistView>EMPGR}"/>
+																	</gt:template>
+																</gt:Column>
+																<gt:Column hAlign="Center">
+																	<Label text="{i18n>Department}" design="Bold" wrapping="true"/>
+																	<gt:template>
+																		<Text text="{worklistView>DEPNM}"/>
+																	</gt:template>
+																</gt:Column>
+																<gt:Column hAlign="Center">
+																	<Label text="{i18n>Count}" design="Bold" wrapping="true"/>
+																	<gt:template>
+																		<Text text="{worklistView>COUNT}"/>
+																	</gt:template>
+																</gt:Column>
+															</gt:columns>
+														</gt:Table>
+													</commons:content>
+												</commons:ChartContainerContent>
+											</commons:content>
+											<commons:customIcons>
+												<core:Icon src="sap-icon://pdf-attachment" tooltip="{i18n>Print}"
+													press="onPressPrintPdf($event, 'idReport1', '/aChart1', 'Total Cases by each Claim Type Report')" visible="{worklistView>/bPDFButtonFlag}"/>
+												<core:Icon src="sap-icon://excel-attachment" tooltip="{i18n>ExportExcel}"
+													press="onPressExport($event, 'idReportTable1', '/aTable1', 'Total Cases by each Claim Type Report')"
+													visible="{worklistView>/bEXPORTButtonFlag}"/>
+											</commons:customIcons>
+										</commons:ChartContainer>
+									</l:BlockLayoutCell>
+								</l:BlockLayoutRow>
+							</l:BlockLayout>
+						</ScrollContainer>
+					</Page>
+	</pages>
+			</NavContainer>
+		</tnt:mainContents>
+    	</tnt:ToolPage>
+    
+</mvc:View>
