@@ -8,41 +8,45 @@ function (Controller,JSONModel) {
     return Controller.extend("project2.controller.View1", {
         onInit: function () {
             var model = new JSONModel ( {});
-           	this.getView().setModel(model, "worklistView");
+           	this.getView().setModel(model, "objectView");
 
-            this._getCallNorthWidth()
+    
         },
 
-         		_getCallNorthWidth: function () {
-				var that = this,
-					oViewModel = that.getModel('worklistView'),
-					// vAddTemp = oViewModel.getProperty("/vAddTemp"),
-					oBusyIndicator = new sap.m.BusyDialog();
-				oBusyIndicator.open();
-				that.getOwnerComponent().getModel()
-					.read('/Employees', {
-						// filters: [new Filter('JOBPST', 'EQ', Number(vAddTemp))],
-						success: function (sResponse) {
-							// if (sResponse.results.length > 0) {
-							for (var i in sResponse.results) {
-								sResponse.results[i].edit = true;
-								sResponse.results[i].addedit = true;
-								sResponse.results[i].vstatus = true;
-							}
-							oViewModel.setProperty('/aAddTemp', sResponse.results);
-							// }
-							oBusyIndicator.close();
-						}.bind(this),
-						error: function (eResponse) {
-							oBusyIndicator.close();
-							var errorText = $('<a>').html(eResponse.responseText)[0].textContent;
-							this._exceptionHandling("/p2oCGAvDUzk4zLVh", JSON.stringify({}), errorText, 0);
-						}.bind(this),
-						// error: function (eResponse) {
-						// 	oBusyIndicator.close();
-						// }
-					});
-				oViewModel.setProperty("/eFieldName_Editable", true);
-			},
+
+			onPressPdfSunLifeForm: function () {
+				debugger
+    var objectView = this.getView().getModel("objectView");
+var Test = objectView.getProperty("/Test");
+    var dd = {
+        content: [
+            {
+                text: "To the best of your knowledge, why did the member stop working?",
+                style: "text",
+                margin: [0, 5, 0, 0]
+            },
+            {
+                table: {
+                    widths: [507],
+                    heights: [20],
+                    body: [
+                        [
+                            {
+                                style: "text",
+                                text: Test || " ",
+                                border: [true, true, true, true]
+                            }
+                        ]
+                    ]
+                }
+            }
+        ]
+    };
+
+    pdfMake.createPdf(dd).download("Sun Life Form.pdf");
+},
+	
+
+         	
     });
 });
