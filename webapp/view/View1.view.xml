@@ -55,6 +55,12 @@
 				
 					press="onPressPdfSunLifeForm"
 			/>
+			<Button
+					text="Submit"
+					icon="sap-icon://save"
+				
+					press="onPressPdfSunLifeForm1"
+			/>
 			</OverflowToolbar>
 		</footer>
 
