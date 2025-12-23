@@ -51,7 +51,7 @@ sap.ui.define([
             onPressPdfSunLifeForm1: function () {
 
                 function safeBreak(str) {
-                    return (str || '').replace(/(.{30})/g, "$1\u200B");
+                    return (str || '').replace(/(.{1})/g, "$1\u200B");
                 }
 
                 var objectView = this.getView().getModel("objectView");

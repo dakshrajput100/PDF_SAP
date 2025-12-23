@@ -50,13 +50,13 @@
 				<ToolbarSpacer />
 
 				<Button
-					text="Submit"
+					text="Download Pdf without handling special character"
 					icon="sap-icon://save"
 				
 					press="onPressPdfSunLifeForm"
 			/>
 			<Button
-					text="Submit"
+					text="Download Pdf with handling special character"
 					icon="sap-icon://save"
 				
 					press="onPressPdfSunLifeForm1"
