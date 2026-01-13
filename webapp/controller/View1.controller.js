@@ -60,7 +60,7 @@ sap.ui.define([
                 var dd = {
                     content: [
                         {
-                            text: "To the best of your knowledge, why did the member stop working?",
+                            text: "Test:",
                             style: "text",
                             margin: [0, 5, 0, 0]
                         },
