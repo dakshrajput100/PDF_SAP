@@ -43,7 +43,7 @@ sap.ui.define([
                     ]
                 };
 
-                pdfMake.createPdf(dd).download("Sun Life Form.pdf");
+                pdfMake.createPdf(dd).download("Sample_Without_Fix.pdf");
             },
 
 
@@ -82,7 +82,7 @@ sap.ui.define([
                     ]
                 };
 
-                pdfMake.createPdf(dd).download("Sun Life Form.pdf");
+                pdfMake.createPdf(dd).download("Sample_With_Fix.pdf");
             }
 
 
